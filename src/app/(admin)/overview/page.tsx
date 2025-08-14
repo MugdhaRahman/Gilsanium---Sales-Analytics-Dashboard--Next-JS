@@ -10,19 +10,19 @@ export default function Overview() {
     const {token} = brandColor;
 
     // Example value
-    const earninValue = '1000';
+    const earninValue = '$109,000';
     const change = '200';
     const changeType = "positive";
 
-    const totalOrders = '500';
+    const totalOrders = '+500';
     const changeOrders = "50";
     const changeOrdersType = "positive";
 
-    const totalSales = "15000";
+    const totalSales = "$15000";
     const changeSales = "3000";
     const changeSalesType = "positive";
 
-    const newCustomers = "300";
+    const newCustomers = "+300";
     const changeCustomers = "50";
     const changeCustomersType = "positive";
 

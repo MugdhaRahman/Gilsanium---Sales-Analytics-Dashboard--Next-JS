@@ -11,7 +11,7 @@ export const brandColor = {
         colorTextTertiary: 'rgba(43, 54, 116, 0.50)',
         colorTextQuaternary: '#D9D9D9',
         colorStroke: '#EFEFEF',
-        colorPositiveBg: '#baf6ba',
+        colorPositiveBg: '#fafafa',
         colorPositiveText: '#058F3F',
     },
 };

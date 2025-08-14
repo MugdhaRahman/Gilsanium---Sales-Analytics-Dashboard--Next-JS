@@ -3,3 +3,9 @@
     padding: 0;
     box-sizing: border-box;
 }
+
+
+.custom-timePicker-option {
+    font-size: 16px;
+    font-weight: 400;
+}

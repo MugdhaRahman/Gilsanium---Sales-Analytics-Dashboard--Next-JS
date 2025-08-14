@@ -2,13 +2,6 @@ import "./globals.css";
 import type {Metadata} from "next";
 import {Inter} from "next/font/google";
 import React from "react";
-import {AntdRegistry} from '@ant-design/nextjs-registry';
-import {Layout} from "antd";
-import {Content} from "antd/es/layout/layout";
-import Nav from "@/app/component/Nav";
-import Slider from "@/app/component/Slider";
-import { ConfigProvider } from 'antd';
-import {brandColor} from "@/config/theme";
 
 const inter = Inter({
     subsets: ["latin"], display: "swap",
@@ -27,29 +20,9 @@ export default function RootLayout({
     <body
         className={inter.className}
     >
-    <AntdRegistry>
-        <Layout hasSider>
-            <Slider/>
-            <Layout style={{
-                background: brandColor.token.colorBgBase,
-            }} >
-                <Nav/>
-                <Content style={
-                    {
-                        display: 'flex',
-                        flexDirection: 'column',
-                        alignItems: 'center',
-                        justifyContent: 'start',
-                        marginTop: '34px',
-                        backgroundColor: brandColor.token.colorBgBase,}
-                }>
-                    <ConfigProvider theme={brandColor}>
-                        {children }
-                    </ConfigProvider>
-                </Content>
-            </Layout>
-        </Layout>
-    </AntdRegistry>
+    <div>
+        <main>{children}</main>
+    </div>
     </body>
     </html>);
 }

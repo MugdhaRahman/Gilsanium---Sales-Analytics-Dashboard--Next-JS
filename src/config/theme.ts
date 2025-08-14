@@ -3,6 +3,7 @@ export const brandColor = {
         colorPrimary: '#414FF4',
         colorSliderBG: '#F9F9F9',
         colorError: '#ff4d4f',
+        colorErrorBg: '#fff1f0',
         colorWarning: '#faad14',
         colorBgBase: '#ffffff',
         colorTextBase: '#2B3674',
@@ -10,5 +11,7 @@ export const brandColor = {
         colorTextTertiary: 'rgba(43, 54, 116, 0.50)',
         colorTextQuaternary: '#D9D9D9',
         colorStroke: '#EFEFEF',
+        colorPositiveBg: '#baf6ba',
+        colorPositiveText: '#058F3F',
     },
 };

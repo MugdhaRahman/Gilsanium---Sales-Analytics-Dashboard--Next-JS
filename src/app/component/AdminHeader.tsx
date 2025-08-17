@@ -6,26 +6,18 @@ import {SearchOutlined, BellOutlined, DownOutlined} from '@ant-design/icons';
 import {Button} from 'antd';
 import {Flex, Divider, Avatar} from 'antd';
 import {Typography} from 'antd';
-import {brandColor} from "@/config/theme";
+import theme from "@/config/theme";
 
 export default function AdminHeader() {
 
     const {Title, Paragraph} = Typography;
-    const {token} = brandColor;
 
     return (
         <Header
             style={{
-                top: 0,
-                position: 'sticky',
-                zIndex: 10,
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'space-between',
-                height: '80px',
-                backgroundColor: 'white',
-                borderBottom: `1px solid ${token.colorStroke}`,
+                backgroundColor: theme.token?.colorBgBase,
             }}
+            className='container-admin--header'
         >
             <Flex
                 vertical
@@ -35,20 +27,19 @@ export default function AdminHeader() {
                     marginTop:20,
                 }}
             >
-                <Title
+                <Title level={2}
                     style={{
                         marginTop: 0,
-                        fontSize: '18px',
                         fontWeight: 500,
-                        color: brandColor.token.colorTextBase,
                     }}
                 >Sales Overview</Title>
+
                 <Paragraph
                     style={{
                         marginTop:"-6px",
                         fontSize: '12px',
                         fontWeight: 400,
-                        color: brandColor.token.colorTextBase,
+                        color: theme.token?.colorTextBase,
                     }}
                 >Monitor all your content activity</Paragraph>
 
@@ -70,10 +61,10 @@ export default function AdminHeader() {
                     style={{
                         alignItems: 'center',
                         padding: '8px 8px',
-                        color: token.colorTextBase,
+                        color: theme.token?.colorTextBase,
                         borderRadius: '8px',
-                        borderColor: token.colorStroke,
-                        backgroundColor: token.colorBgBase,
+                        borderColor: theme.token?.colorBorder,
+                        backgroundColor: theme.token?.colorBgBase,
                     }}
                 />
 
@@ -81,14 +72,7 @@ export default function AdminHeader() {
                     shape="default"
                     size="middle"
                     icon={<BellOutlined/>}
-                    style={{
-                        alignItems: 'center',
-                        padding: '8px 8px',
-                        color: token.colorTextBase,
-                        borderRadius: '8px',
-                        borderColor: token.colorStroke,
-                        backgroundColor: token.colorBgBase,
-                    }}
+                    className='btn-outline--small'
                 />
 
                 <Button
@@ -101,14 +85,7 @@ export default function AdminHeader() {
                         height={16}
                         priority
                     />}
-                    style={{
-                        alignItems: 'center',
-                        padding: '8px 8px',
-                        color: token.colorTextBase,
-                        borderRadius: '8px',
-                        borderColor: token.colorStroke,
-                        backgroundColor: token.colorBgBase,
-                    }}
+                    className='btn-outline--small'
                 />
             </Flex>
 
@@ -123,7 +100,7 @@ export default function AdminHeader() {
                     type="vertical"
                     style={{
                         height: '16px',
-                        backgroundColor: token.colorStroke,
+                        backgroundColor: theme.token?.colorBorder,
                         width: '1px',
                         margin: 0,
                     }}
@@ -150,12 +127,10 @@ export default function AdminHeader() {
                         marginLeft: '8px'
                     }}
                 >
-                    <Title
+                    <Title level={3}
                         style={{
                             margin: 0,
-                            fontSize: '16px',
                             fontWeight: 500,
-                            color: brandColor.token.colorTextBase,
                         }}
                     >Amiril mu’</Title>
                     <Paragraph
@@ -163,7 +138,7 @@ export default function AdminHeader() {
                             margin: 0,
                             fontSize: '10px',
                             fontWeight: 400,
-                            color: brandColor.token.colorTextBase,
+                            color: theme.token?.colorTextBase,
                         }}
                     >amirilmu@mail.example</Paragraph>
 
@@ -173,7 +148,7 @@ export default function AdminHeader() {
                     style={{
                         marginLeft: '10px',
                         fontSize: '16px',
-                        color: token.colorTextBase
+                        color: theme.token?.colorTextBase
                     }}/>
 
             </Flex>

@@ -1,13 +1,16 @@
 // Stats cards component showing key metrics
 'use client';
-import React from 'react';
+import React, {useMemo} from 'react';
 import {Flex, Space, Typography} from 'antd';
-import {MoreOutlined} from "@ant-design/icons";
-import {brandColor} from "@/config/theme";
+import {FallOutlined, MoreOutlined, RiseOutlined} from "@ant-design/icons";
 import Image from "next/image";
+import theme from "@/config/theme";
 
 const {Text, Title} = Typography;
-const {token} = brandColor;
+
+const changePositive = "positive";
+const changeNegative = "negative";
+
 
 interface EarningsCardProps {
     title: string;
@@ -17,6 +20,7 @@ interface EarningsCardProps {
     icon?: React.ReactNode;
 }
 
+
 const EarningsCard = ({
                           title,
                           value,
@@ -25,73 +29,89 @@ const EarningsCard = ({
                           icon,
                       }: EarningsCardProps) => {
 
+    const changeIcon = useMemo(
+        () =>
+            changeType === 'positive' ? (
+                <RiseOutlined style={{color: theme.token?.colorSuccessText}}/>
+            ) : (
+                <FallOutlined style={{color: theme.token?.colorError}}/>
+            ),
+        [changeType]
+    );
+
 
     return (
 
         <Flex vertical
               justify='start'
               align='center'
+
               style={{
                   margin: 8,
                   width: "100%",
-                  border: `1px solid ${token.colorStroke}`,
+                  backgroundColor: theme.token?.colorInfoBg,
+                  border: `1px solid ${theme.token?.colorBorder}`,
                   borderRadius: 10,
               }}
         >
-            <Space direction="horizontal"
-                   style={{width: "100%", justifyContent: "space-between", padding: '12px 12px 0'}}>
-                <Space>
-                    {icon}
-                    <Text style={{fontSize: 12, fontWeight: 400}}>{title}</Text>
-                </Space>
-                <MoreOutlined/>
-            </Space>
-            <Space direction='horizontal' style={{width: "100%", justifyContent: "start", padding: '12px 12px 0'}}>
-                <Title level={4} style={{marginTop: 8, marginRight: 16}}>{value}</Title>
-
-                <Flex
-                    justify='center'
-                    align='center'
-                    style={{
-                        fontSize: 12,
-                        fontWeight: 400,
-                        background: changeType === "positive" ? token.colorPositiveBg : token.colorErrorBg,
-                        borderRadius: 4
-                    }}>
-                    <Image src="/Graph-Stats-Descend--Streamline-Ultimate.svg" alt={'stats'}
-                           height={12}
-                           width={12} style={{
-                        marginLeft: 8,
-                        color: changeType === "positive" ? token.colorPositiveText : token.colorError,
-                    }}
-                    />
-
-                    <Text style={{
-                        color: changeType === "positive" ? token.colorPositiveText : token.colorError,
-                        padding: '0px 8px'
-                    }}>{change}</Text>
-                </Flex>
-
-            </Space>
-
-            <Flex style={{
-                zIndex: 1,
-                backgroundColor: token.colorSliderBG,
+            <Flex vertical
+                  justify='start'
+                  align='center' style={{
                 width: '100%',
-                display: 'flex',
-                justifyContent: 'center',
-                alignItems: 'center',
+                backgroundColor: theme.token?.colorBgContainer,
+                borderRadius: '10px',
             }}>
-                <Text style={{
-                    padding: '8px 16px',
-                    color: token.colorTextBase,
-                    fontSize: 12,
-                    fontWeight: 400,
+
+                <Space direction="horizontal"
+                       style={{width: "100%", justifyContent: "space-between", padding: '12px 12px 0'}}>
+                    <Space>
+                        {icon}
+                        <Title level={4} style={{fontWeight: 400}}>{title}</Title>
+                    </Space>
+                    <MoreOutlined/>
+                </Space>
+                <Space direction='horizontal' style={{
+                    width: "100%",
+                    justifyContent: "start",
+                    padding: '12px 12px 0',
                 }}>
-                    You earn extra <Text strong>{value}</Text> this month
-                </Text>
+                    <Title level={1} style={{marginTop: 8, marginRight: 16}}>{value}</Title>
+
+                    <Flex
+                        justify='center'
+                        align='center'
+                        style={{
+                            background: changeType === "positive" ? theme.token?.colorSuccessBg : theme.token?.colorErrorBg,
+                            borderRadius: 4
+                        }}>
+                        <Space style={{
+                            paddingLeft: 8
+                        }}>
+                            {changeIcon}
+                        </Space>
+
+
+                        <Text style={{
+                            color: changeType === "positive" ? theme.token?.colorSuccessText : theme.token?.colorError,
+                            padding: '0px 8px'
+                        }}>{change}</Text>
+                    </Flex>
+
+                </Space>
 
             </Flex>
+
+
+            <Text
+                style={{
+                    padding: '8px 16px',
+                    color: theme.token?.colorTextBase,
+                    fontSize: theme.token?.fontSizeHeading4,
+                    fontWeight: 400,
+                }}>
+                You earn extra <Text strong>{value}</Text> this month
+            </Text>
+
         </Flex>
 
 

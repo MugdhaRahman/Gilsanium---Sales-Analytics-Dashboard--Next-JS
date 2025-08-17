@@ -5,11 +5,11 @@ import Image from "next/image";
 import Link from "next/link";
 import {SunOutlined, AppstoreOutlined} from '@ant-design/icons';
 import {Menu} from "antd";
-import {brandColor} from "@/config/theme";
 import {Button} from 'antd';
 import {Flex} from 'antd';
 import {usePathname} from "next/navigation";
 import React, {useEffect} from "react";
+import theme from "@/config/theme";
 
 export default function AdminSidebar() {
 
@@ -57,22 +57,15 @@ export default function AdminSidebar() {
                 setSelectedKey([item.key]);
         })
     }, [pathname]);
-    const {token} = brandColor;
+
+
     return (
         <Sider
             width={260}
             style={{
-                display: 'flex',
-                flexDirection: 'column',
-                position: 'sticky',
-                top: 0,
-                height: '100vh',
-                overflowY: 'auto',
-                scrollbarWidth: 'thin',
-                scrollbarGutter: 'stable',
-                backgroundColor: token.colorSliderBG,
-                border: `1px solid ${token.colorStroke}`,
+                backgroundColor: theme.token?.colorInfoBg,
             }}
+            className='container-admin--sidebar'
         >
 
             <Flex
@@ -80,7 +73,7 @@ export default function AdminSidebar() {
                 align="center"
                 style={{
                     margin: '24px 24px',
-                    backgroundColor: token.colorSliderBG,
+                    backgroundColor: theme.token?.colorInfoBg,
                 }}
             >
                 <Image
@@ -95,20 +88,13 @@ export default function AdminSidebar() {
                     shape="default"
                     size="middle"
                     icon={<SunOutlined/>}
-                    style={{
-                        padding: '6px 6px',
-                        fontSize: '16px',
-                        alignItems: 'center',
-                        borderRadius: '6px',
-                        borderColor: token.colorStroke,
-                        backgroundColor: token.colorBgBase,
-                    }}
+                    className='btn-outline--small'
                 />
             </Flex>
 
             <Menu items={items}
                   style={{
-                      backgroundColor: token.colorSliderBG,
+                      backgroundColor: theme.token?.colorInfoBg,
                   }}
                   selectedKeys={selectedKey}
             > </Menu>

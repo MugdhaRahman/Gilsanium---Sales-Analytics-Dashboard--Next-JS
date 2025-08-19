@@ -6,9 +6,9 @@ import EarningCard from "@/app/component/EarningCard";
 import Chart from "@/app/component/SalesChart";
 import ProductMonitor from "@/app/component/ProductMonitor";
 import theme from "@/config/theme";
+import Mapbox from "@/app/component/MapBox";
 
 export default function Overview() {
-
 
     // Example value
     const earningValue = '$109,000';
@@ -56,7 +56,7 @@ export default function Overview() {
                             width={24}
                             height={24}
                         />}
-                        style={{marginRight:8}}
+                        style={{marginRight: 8}}
                         className={'btn-outline'}
                     >
                         Customize Widget
@@ -73,7 +73,7 @@ export default function Overview() {
             <Flex justify='space-evenly'
                   align='center'
                   style={{
-                      margin:'0 32px 24px 32px'
+                      margin: '0 32px 24px 32px'
                   }}>
                 <EarningCard icon={<Image
                     src="/Money-Bag-Dollar--Streamline-Ultimate.svg"
@@ -102,15 +102,16 @@ export default function Overview() {
                              changeType={changeCustomersType}/>
             </Flex>
 
-            <Flex gap={15} style={{ margin: '0 40px 24px 40px' }}>
-                <div style={{ flex: 1 }}>
-                    <Chart />
+            <Flex gap={15} style={{margin: '0 40px 24px 40px'}}>
+                <div style={{flex: 1}}>
+                    <Chart/>
                 </div>
-                <div style={{ flex: 1 }}>
-                    <ProductMonitor />
+                <div style={{flex: 1}}>
+                    <ProductMonitor/>
                 </div>
             </Flex>
 
+            <Mapbox/>
 
         </div>
     )

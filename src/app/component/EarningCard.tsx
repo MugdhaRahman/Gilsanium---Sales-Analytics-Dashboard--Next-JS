@@ -3,13 +3,9 @@
 import React, {useMemo} from 'react';
 import {Flex, Space, Typography} from 'antd';
 import {FallOutlined, MoreOutlined, RiseOutlined} from "@ant-design/icons";
-import Image from "next/image";
 import theme from "@/config/theme";
 
 const {Text, Title} = Typography;
-
-const changePositive = "positive";
-const changeNegative = "negative";
 
 
 interface EarningsCardProps {

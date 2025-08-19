@@ -172,7 +172,7 @@ export default function SalesChart() {
                                 })}
                             </Bar>
 
-                            <Bar dataKey="uv" fill="#D9D9D933" radius={12} />
+                            <Bar dataKey="uv" fill="#B9CFF9" radius={12} />
                         </BarChart>
                     </div>
                 </div>

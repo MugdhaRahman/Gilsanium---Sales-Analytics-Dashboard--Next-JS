@@ -40,9 +40,11 @@ const theme: ThemeConfig = {
         },
         Select: {
             colorPrimary: '#414FF4',
-            colorPrimaryHover: '#ffffff',
+            colorPrimaryHover: '#2B3674',
             colorPrimaryActive: '#ffffff',
-            colorBgBase: '#F9F9F9'
+            colorBgBase: '#F9F9F9',
+            colorTextBase: '#2B3674',
+            colorBorder: '#EFEFEF',
         },
         DatePicker: {
             colorPrimary: '#414FF4',
@@ -53,11 +55,18 @@ const theme: ThemeConfig = {
             colorTextSecondary: '#555E67',
             colorTextTertiary: '#D9D9D9',
         },
-        Slider:{
+        Slider: {
             colorPrimary: '#2B3674',
             colorPrimaryHover: '#ffffff',
             colorPrimaryActive: '#ffffff',
-        }
+        },
+        Input: {
+            colorPrimary: '#414FF4',
+            colorPrimaryHover: '#2B3674',
+            colorTextBase: '#2B3674',
+            colorBorder: '#EFEFEF',
+            borderRadius: 8,
+        },
 
     },
 

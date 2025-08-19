@@ -1,10 +1,16 @@
 // /app/(admin)/layout.tsx
+'use client';  // <-- This line marks the component as a Client Component
+
+import 'mapbox-gl/dist/mapbox-gl.css';
+import "../globals.css";
 import React from 'react';
 import {Layout} from 'antd';
 import {Content} from "antd/es/layout/layout";
 import {AntdRegistry} from "@ant-design/nextjs-registry"
 import {ConfigProvider} from "antd"
 import theme from "@/config/theme"
+import {store} from "@/store";
+import {Provider} from "react-redux";
 import AdminSidebar from '@/app/component/AdminSidebar';
 import AdminHeader from '@/app/component/AdminHeader';
 
@@ -17,15 +23,17 @@ export default function AdminLayout({
     return (
         <ConfigProvider theme={theme}>
             <AntdRegistry>
-                <Layout>
-                    <AdminSidebar/>
+                <Provider store={store}>
                     <Layout>
-                        <AdminHeader/>
-                        <Content>
-                            {children}
-                        </Content>
+                        <AdminSidebar/>
+                        <Layout>
+                            <AdminHeader/>
+                            <Content>
+                                {children}
+                            </Content>
+                        </Layout>
                     </Layout>
-                </Layout>
+                </Provider>
             </AntdRegistry>
         </ConfigProvider>
     );

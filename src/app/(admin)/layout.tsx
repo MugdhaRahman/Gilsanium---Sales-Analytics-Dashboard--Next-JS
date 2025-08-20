@@ -1,5 +1,5 @@
 // /app/(admin)/layout.tsx
-'use client';  // <-- This line marks the component as a Client Component
+'use client';
 
 import 'mapbox-gl/dist/mapbox-gl.css';
 import "../globals.css";

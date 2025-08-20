@@ -1,15 +1,15 @@
-'use client';
 
 import React, {useRef, useEffect, useState} from "react";
 import mapboxgl from "mapbox-gl";
 import {Input, Button, Typography, Flex, Select, Image, List, Modal} from "antd";
 import Icon, {SearchOutlined} from "@ant-design/icons";
-import theme from "@/config/theme";
+import {theme} from 'antd';
 import {Text} from "recharts";
 import type {GetProps} from 'antd';
 
 
-mapboxgl.accessToken = "pk.eyJ1IjoibXVnZGhhcmFobWFuIiwiYSI6ImNtZWk5ZG15MjA1YzIycXNqaTJ1OHkzdTYifQ.wjY2T9Ax631IflxgEPRWDg"; // Replace with your Mapbox access token
+// mapboxgl.accessToken = process.env.mapboxAccessToken;
+mapboxgl.accessToken = "pk.eyJ1IjoibXVnZGhhcmFobWFuIiwiYSI6ImNtZWk5ZG15MjA1YzIycXNqaTJ1OHkzdTYifQ.wjY2T9Ax631IflxgEPRWDg";
 
 const INITIAL_CENTER: [number, number] = [-122.431297, 37.773972];
 const INITIAL_ZOOM = 12;
@@ -18,24 +18,39 @@ const storeLocations = [
     {
         id: "1",
         name: "Store A",
-        lat: 37.773972,
-        lng: -122.431297,
-        address: "123 Main St, New York, NY",
+        lat: 37.7804852,
+        lng: -122.4724717,
+        price: "$1.2m",
+        address: "Richmond District"
+
     },
     {
         id: "2",
         name: "Store B",
-        lat: 37.773972,
-        lng: -122.431297,
-        address: "456 Market St, Brooklyn, NY",
+        lat: 37.753972,
+        lng: -122.461297,
+        price: "$1.2m",
+        address: "Inner Sunset"
+
     },
     {
         id: "3",
         name: "Store C",
+        lat: 37.788536,
+        lng: -122.487397,
+        price: "$1.2m",
+        address: "Sea Cliff"
+    },
+
+    {
+        id: "4",
+        name: "Store D",
         lat: 37.773972,
         lng: -122.431297,
-        address: "789 Broadway, Manhattan, NY",
+        address: "123 Main St, New York, NY",
+        price: "$890k",
     },
+
 ];
 
 const storeItems = [
@@ -69,6 +84,8 @@ const storeItems = [
 ]
 
 export default function Mapbox() {
+
+    const {token} = theme.useToken()
 
     type CustomIconComponentProps = GetProps<typeof Icon>;
 
@@ -107,18 +124,18 @@ export default function Mapbox() {
     const [loading, setLoading] = useState(true);
     const [searchTerm, setSearchTerm] = useState("");
 
+    // Initialize Map
     useEffect(() => {
         if (mapContainerRef.current && !mapRef.current) {
-            // Initialize the map
             mapRef.current = new mapboxgl.Map({
                 container: mapContainerRef.current,
-                style: "mapbox://styles/mapbox/light-v11", // Map style
-                center: INITIAL_CENTER, // Initial center
-                zoom: INITIAL_ZOOM,     // Initial zoom level
+                style: "mapbox://styles/mapbox/light-v11",
+                center: INITIAL_CENTER,
+                zoom: INITIAL_ZOOM,
             });
 
             mapRef.current.on("load", () => {
-                setLoading(false);  // Set loading to false once the map is loaded
+                setLoading(false); // Set loading to false once the map is loaded
             });
         }
 
@@ -131,7 +148,7 @@ export default function Mapbox() {
         };
     }, []);
 
-    // Function to handle search (e.g., focus on a specific store)
+    // Handle search for store by name
     const handleSearch = () => {
         const store = storeLocations.find((store) =>
             store.name.toLowerCase().includes(searchTerm.toLowerCase())
@@ -145,26 +162,49 @@ export default function Mapbox() {
         }
     };
 
-    // Add markers and popups for stores
+    // Add store markers and popups to map
     useEffect(() => {
         if (mapRef.current && mapRef.current.isStyleLoaded()) {
-            storeLocations.forEach((storeLocations) => {
+            storeLocations.forEach((store) => {
                 if (mapRef.current) {
-                    const marker = new mapboxgl.Marker()
-                        .setLngLat([storeLocations.lng, storeLocations.lat])
+                    const markerElement = document.createElement("div");
+                    markerElement.className = "custom-marker";
+
+                    // Custom marker HTML with store name and price
+                    markerElement.innerHTML = `
+            <div class="marker-content">
+              <div class="marker-name">${store.name}</div>
+              <div class="marker-price">${store.price}</div>
+            </div>
+          `;
+
+                    // Create and add the marker
+                    new mapboxgl.Marker(markerElement)
+                        .setLngLat([store.lng, store.lat])
                         .addTo(mapRef.current);
 
+                    // Create a popup for the marker
                     const popup = new mapboxgl.Popup({offset: 25})
                         .setHTML(`
-            <h3>${storeLocations.name}</h3>
-            <p>${storeLocations.address}</p>
-          `);
+              <h3>${store.name}</h3>
+              <p>${store.address}</p>
+              <p>Price: ${store.price}</p>
+            `);
 
-                    marker.setPopup(popup);
+                    // Attach popup to marker
+                    markerElement.addEventListener("click", () => {
+                        if (mapRef.current) {
+                            new mapboxgl.Marker(markerElement)
+                                .setPopup(popup)
+                                .addTo(mapRef.current);
+                        }
+                    });
                 }
             });
         }
-    }, []);
+    }, [storeLocations]);
+
+    // Modal handling
 
     const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -184,7 +224,7 @@ export default function Mapbox() {
     return (
         <Flex vertical
               align="center"
-              style={{margin: '0 40px 40px 40px', border: `1px solid ${theme.token?.colorBorder}`, borderRadius: 10}}>
+              style={{margin: '0 40px 40px 40px', border: `1px solid ${token.colorBorder}`, borderRadius: 10}}>
 
             <Flex
                 justify="start"
@@ -221,7 +261,7 @@ export default function Mapbox() {
                     }
                     onClick={showModal}
                     style={{
-                        background: theme.token?.colorTextBase,
+                        background: token.colorTextBase,
                         padding: "12px",
                         display: "flex",
                         alignItems: "center",
@@ -230,22 +270,51 @@ export default function Mapbox() {
                 />
 
                 <Modal
-                    title="Basic Modal"
                     closable={{'aria-label': 'Custom Close Button'}}
                     open={isModalOpen}
                     onOk={handleOk}
                     onCancel={handleCancel}
+                    getContainer={false}
                     style={{
-                        position: "absolute",
-                        top: "calc(100% + 8px)",  // Position below the button
-                        right: "0",  // Align it to the right
-                        transform: "none",  // Remove centering effect
+                        border: 1,
+                        borderColor: token.colorBorder,
+                        fontWeight: 500
                     }}
-                    getContainer={false}  // Ensures the modal stays within its parent
                 >
-                    <p>Some contents...</p>
-                    <p>Some contents...</p>
-                    <p>Some contents...</p>
+                    <Text style={{
+                        color: "#555E67",
+                        fontSize: token.fontSizeHeading4,
+                    }}>
+                        Filter by:
+                    </Text>
+
+                    <Flex
+                        justify="space-between"
+                        align="center"
+                        style={{padding: 16, width: "100%"}}
+                    >
+
+                        <Typography.Title
+                            style={{
+                                fontSize: token.fontSizeHeading3,
+                                fontWeight: 600,
+                            }}
+                        >
+                            Date Range
+                        </Typography.Title>
+
+                        <Typography.Title
+                            style={{
+                                fontSize: token.fontSizeHeading3,
+                                fontWeight: 600,
+                            }}
+                        >
+                            Reset
+                        </Typography.Title>
+
+                    </Flex>
+
+
                 </Modal>
 
             </Flex>
@@ -258,7 +327,7 @@ export default function Mapbox() {
 
                 <Typography.Title
                     style={{
-                        fontSize: theme.token?.fontSizeHeading3,
+                        fontSize: token.fontSizeHeading3,
                         fontWeight: 600,
                     }}
                 >
@@ -318,7 +387,7 @@ export default function Mapbox() {
                                             left: 0,
                                             width: '100%',
                                             zIndex: 1,
-                                            background: theme.token?.colorTextBase,
+                                            background: token.colorTextBase,
                                             opacity: 0.7,
                                             borderBottomLeftRadius: 10,
                                             borderBottomRightRadius: 10,
@@ -327,8 +396,8 @@ export default function Mapbox() {
                                     >
                                         <Text
                                             style={{
-                                                fontSize: theme.token?.fontSizeHeading3,
-                                                color: theme.token?.colorBgBase,
+                                                fontSize: token.fontSizeHeading3,
+                                                color: token.colorBgBase,
                                                 zIndex: 10,
                                                 marginBottom: 4,
                                                 position: 'relative'
@@ -339,8 +408,8 @@ export default function Mapbox() {
 
                                         <Typography.Title
                                             style={{
-                                                fontSize: theme.token?.fontSizeHeading1,
-                                                color: theme.token?.colorBgBase,
+                                                fontSize: token.fontSizeHeading1,
+                                                color: token.colorBgBase,
                                                 zIndex: 10,
                                                 margin: 0,
                                                 position: 'relative'

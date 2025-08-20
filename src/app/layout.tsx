@@ -2,6 +2,8 @@ import "./globals.css";
 import type {Metadata} from "next";
 import {Inter} from "next/font/google";
 import React from "react";
+import {AntdRegistry} from '@ant-design/nextjs-registry';
+
 
 const inter = Inter({
     subsets: ["latin"], display: "swap",
@@ -20,7 +22,7 @@ export default function RootLayout({
     <body
         className={inter.className}
     >
-    {children}
+    <AntdRegistry>{children}</AntdRegistry>
     </body>
     </html>);
 }

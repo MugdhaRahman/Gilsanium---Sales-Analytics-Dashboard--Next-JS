@@ -3,21 +3,23 @@
 import Sider from 'antd/es/layout/Sider';
 import Image from "next/image";
 import Link from "next/link";
-import {SunOutlined, AppstoreOutlined, DatabaseOutlined} from '@ant-design/icons';
+import {SunOutlined, AppstoreOutlined, DatabaseOutlined, SettingOutlined, UserDeleteOutlined} from '@ant-design/icons';
 import {Menu, Typography, Button, Flex} from "antd";
 import {usePathname} from "next/navigation";
 import React, {useEffect, useMemo, useState} from "react";
-import theme from "@/config/theme";
+import {theme} from 'antd'
+import {logout} from "@/utils/appwrite";
 
 export default function AdminSidebar() {
     const pathname = usePathname();
+    const {token} = theme.useToken();
 
     const items = useMemo(() => ([
         {
             key: '1',
             label: <Link href='/overview'>Overview</Link>,
             path: '/overview',
-            icon: <AppstoreOutlined style={{color: theme.token?.colorTextBase}}/>,
+            icon: <AppstoreOutlined style={{color: token.colorTextBase}}/>,
         },
         {
             key: '2',
@@ -51,8 +53,38 @@ export default function AdminSidebar() {
         },
     ]), []);
 
+    const accountItems = useMemo(() => ([
+        {
+            key: '1',
+            label: <Link href='/settings'>Settings</Link>,
+            path: '/settings',
+            icon: <SettingOutlined/>,
+        },
+
+        {
+            key: '2',
+            label: <Link href='/help'>Help</Link>,
+            path: '/help',
+            icon: <Image src='/Messages-Bubble-Square-Question--Streamline-Ultimate.svg' alt='help' width={16}
+                         height={16}/>,
+        },
+
+        {
+            key: '3',
+            label: <Link href='/'>Logout</Link>,
+            path: logout(),
+            icon: <UserDeleteOutlined/>,
+        },
+
+
+    ]), [])
+
     const [selectedKeys, setSelectedKeys] = useState<string[]>([]);
     const [openKeys, setOpenKeys] = useState<string[]>([]);
+
+    const [selectedKeysSettings, setSelectedKeysSettings] = useState<string[]>([]);
+    const [openKeysSettings, setOpenKeysSettings] = useState<string[]>([]);
+
 
     useEffect(() => {
         const findMatch = (arr: any[]): { selected?: string; open?: string } => {
@@ -70,10 +102,26 @@ export default function AdminSidebar() {
         setOpenKeys(res.open ? [res.open] : []);
     }, [pathname, items]);
 
+    useEffect(() => {
+        const findMatchSettings = (arr: any[]): { selected?: string; open?: string } => {
+            for (const it of arr) {
+                if (it.path && pathname.startsWith(it.path)) return {selected: it.key};
+                if (it.children) {
+                    const res = findMatchSettings(it.children);
+                    if (res.selected) return {selected: res.selected, open: it.key};
+                }
+            }
+            return {};
+        };
+        const res = findMatchSettings(accountItems as any[]);
+        setSelectedKeysSettings(res.selected ? [res.selected] : []);
+        setOpenKeysSettings(res.open ? [res.open] : []);
+    }, [pathname, accountItems]);
+
     return (
         <Sider
             width={260}
-            style={{backgroundColor: theme.token?.colorInfoBg, position: "sticky"}}
+            style={{backgroundColor: token.colorInfoBg, position: "sticky"}}
             className='container-admin--sidebar'
         >
             <Flex justify="space-between" align="center" style={{margin: '24px'}}>
@@ -83,8 +131,8 @@ export default function AdminSidebar() {
 
             <Typography.Title
                 style={{
-                    fontSize: theme.token?.fontSizeHeading4,
-                    color: theme.token?.colorTextBase,
+                    fontSize: token.fontSizeHeading4,
+                    color: token.colorTextBase,
                     opacity: 0.53,
                     fontWeight: 600,
                     margin: '0 0 12px 24px',
@@ -101,8 +149,35 @@ export default function AdminSidebar() {
                 openKeys={openKeys}
                 onOpenChange={(keys) => setOpenKeys(keys as string[])}
                 selectedKeys={selectedKeys}
-                style={{backgroundColor: theme.token?.colorInfoBg}}
+                style={{backgroundColor: token.colorInfoBg, marginBottom: 24}}
             />
+
+            <Typography.Title
+                style={{
+                    fontSize: token.fontSizeHeading4,
+                    color: token.colorTextBase,
+                    opacity: 0.53,
+                    fontWeight: 600,
+                    margin: '0 0 12px 24px',
+                    paddingTop: 24
+                }}
+            >
+                ACCOUNT
+            </Typography.Title>
+
+            <Menu
+                items={accountItems}
+                mode="inline"
+                triggerSubMenuAction="click"
+                openKeys={openKeysSettings}
+                onOpenChange={(keys) => setOpenKeysSettings(keys as string[])}
+                selectedKeys={selectedKeysSettings}
+                style={{
+                    backgroundColor: token.colorInfoBg,
+                    marginBottom: 24
+                }}
+            />
+
         </Sider>
     );
 }

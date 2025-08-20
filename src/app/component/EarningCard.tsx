@@ -3,7 +3,7 @@
 import React, {useMemo} from 'react';
 import {Flex, Space, Typography} from 'antd';
 import {FallOutlined, MoreOutlined, RiseOutlined} from "@ant-design/icons";
-import theme from "@/config/theme";
+import {theme} from 'antd';
 
 const {Text, Title} = Typography;
 
@@ -25,16 +25,18 @@ const EarningsCard = ({
                           icon,
                       }: EarningsCardProps) => {
 
+    const {token} = theme.useToken()
+
+
     const changeIcon = useMemo(
         () =>
             changeType === 'positive' ? (
-                <RiseOutlined style={{color: theme.token?.colorSuccessText}}/>
+                <RiseOutlined style={{color: token.colorSuccessText}}/>
             ) : (
-                <FallOutlined style={{color: theme.token?.colorError}}/>
+                <FallOutlined style={{color: token.colorError}}/>
             ),
         [changeType]
     );
-
 
     return (
 
@@ -45,8 +47,8 @@ const EarningsCard = ({
               style={{
                   margin: 8,
                   width: "100%",
-                  backgroundColor: theme.token?.colorInfoBg,
-                  border: `1px solid ${theme.token?.colorBorder}`,
+                  backgroundColor: token.colorInfoBg,
+                  border: `1px solid ${token.colorBorder}`,
                   borderRadius: 10,
               }}
         >
@@ -54,7 +56,7 @@ const EarningsCard = ({
                   justify='start'
                   align='center' style={{
                 width: '100%',
-                backgroundColor: theme.token?.colorBgContainer,
+                backgroundColor: token.colorBgContainer,
                 borderRadius: '10px',
             }}>
 
@@ -77,7 +79,7 @@ const EarningsCard = ({
                         justify='center'
                         align='center'
                         style={{
-                            background: changeType === "positive" ? theme.token?.colorSuccessBg : theme.token?.colorErrorBg,
+                            background: changeType === "positive" ? token.colorSuccessBg : token.colorErrorBg,
                             borderRadius: 4
                         }}>
                         <Space style={{
@@ -88,7 +90,7 @@ const EarningsCard = ({
 
 
                         <Text style={{
-                            color: changeType === "positive" ? theme.token?.colorSuccessText : theme.token?.colorError,
+                            color: changeType === "positive" ? token.colorSuccessText : token.colorError,
                             padding: '0px 8px'
                         }}>{change}</Text>
                     </Flex>
@@ -101,8 +103,8 @@ const EarningsCard = ({
             <Text
                 style={{
                     padding: '8px 16px',
-                    color: theme.token?.colorTextBase,
-                    fontSize: theme.token?.fontSizeHeading4,
+                    color: token.colorTextBase,
+                    fontSize: token.fontSizeHeading4,
                     fontWeight: 400,
                 }}>
                 You earn extra <Text strong>{value}</Text> this month

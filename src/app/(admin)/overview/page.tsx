@@ -1,3 +1,4 @@
+'use client'
 import {Button, Flex} from "antd";
 import DateRangePicker from "@/app/component/DateRangePicker";
 import Image from "next/image";
@@ -5,10 +6,14 @@ import {DownloadOutlined} from "@ant-design/icons";
 import EarningCard from "@/app/component/EarningCard";
 import Chart from "@/app/component/SalesChart";
 import ProductMonitor from "@/app/component/ProductMonitor";
-import theme from "@/config/theme";
+import {theme} from 'antd';
 import Mapbox from "@/app/component/MapBox";
 
+
 export default function Overview() {
+
+
+
 
     // Example value
     const earningValue = '$109,000';
@@ -27,12 +32,15 @@ export default function Overview() {
     const changeCustomers = "5.5%";
     const changeCustomersType = "positive";
 
+    const {token} = theme.useToken()
+
+
     return (
         <div style={{
             display: 'flex',
             flexDirection: 'column',
             width: '100%',
-            backgroundColor: theme.token?.colorBgBase
+            backgroundColor: token.colorBgBase
         }}>
 
             <Flex

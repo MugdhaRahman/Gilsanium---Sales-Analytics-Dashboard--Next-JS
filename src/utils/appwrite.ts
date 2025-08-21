@@ -1,11 +1,12 @@
 // /utils/appwrite.ts
-import { Client, Account, OAuthProvider } from "appwrite";
+import {Client, Account, OAuthProvider, Databases} from "appwrite";
 
-export const appwriteClient = new Client()
-    .setEndpoint(process.env.NEXT_PUBLIC_APPWRITE_ENDPOINT!) // e.g. https://fra.cloud.appwrite.io/v1
-    .setProject(process.env.NEXT_PUBLIC_APPWRITE_PROJECT_ID!);
+export const client = new Client()
+    .setEndpoint(process.env.NEXT_PUBLIC_APPWRITE_ENDPOINT as string) // e.g. https://fra.cloud.appwrite.io/v1
+    .setProject(process.env.NEXT_PUBLIC_APPWRITE_PROJECT_ID as string);
 
-export const account = new Account(appwriteClient);
+export const account = new Account(client);
+export const database = new Databases(client);
 
 // Call from a click handler — NOT at module top-level
 export function loginWithGithub() {
@@ -17,6 +18,12 @@ export function loginWithGithub() {
     );
 }
 
-export function logout() {
-    return account.deleteSession("current");
+export async function logoutAndRedirect() {
+    try {
+        await account.deleteSession("current"); // end the session
+        window.location.href = `${window.location.origin}/`; // go to root
+    } catch (err) {
+        console.error("Logout failed:", err);
+    }
+
 }

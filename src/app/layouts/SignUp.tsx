@@ -1,10 +1,12 @@
 "use client";
 
-import React, {CSSProperties} from "react";
+import React, {CSSProperties, FormEvent, useState} from "react";
 import {Button, Checkbox, Form, Grid, Input, message, theme, Typography} from "antd";
 import {GithubOutlined, LockOutlined, MailOutlined} from "@ant-design/icons";
 import Image from "next/image";
 import {loginWithGithub} from "@/utils/appwrite";
+import {account} from "@/utils/appwrite";
+import {ID} from "appwrite";
 
 
 const {useToken} = theme;
@@ -17,7 +19,14 @@ type LoginFormValues = {
     remember?: boolean;
 };
 
-export default function Home() {
+export default function SignUp() {
+
+    // const [signUpEmail, setSignUpEmail] = useState<string>("");
+    // const [signUpPassword, setSignUpPassword] = useState<string>("");
+    // const [loginEmail, setLoginEmail] = useState<string>("");
+    // const [loginPassword, setLoginPassword] = useState<string>("");
+    //
+
     const {token} = useToken();
     const screens = useBreakpoint();
 
@@ -49,7 +58,7 @@ export default function Home() {
         },
         section: {
             alignItems: "center",
-            backgroundColor: token.colorBgContainer,
+            backgroundColor: 'rgba(65,79,244,0.15)',
             display: "flex",
             height: screens.sm ? "100vh" : "auto",
             padding: screens.md ? `${token.sizeXXL}px 0px` : "0px",
@@ -64,12 +73,44 @@ export default function Home() {
 
     const onGithub = async () => {
         try {
-            await loginWithGithub(); // Will redirect out; no need to await result
+            loginWithGithub(); // Will redirect out; no need to await result
         } catch (err) {
             console.error(err);
             message.error("Failed to start GitHub login");
         }
     };
+
+    // async function handleSignup(e: FormEvent) {
+    //     e.preventDefault();
+    //
+    //     try {
+    //         const response = await account.create(
+    //             ID.unique(),
+    //             signUpEmail,
+    //             signUpPassword
+    //         );
+    //         console.log(response);
+    //
+    //         await account.createEmailPasswordSession(signUpEmail, signUpPassword);
+    //
+    //         window.location.href = "/dashboard";
+    //     } catch (err: any) {
+    //         console.error(err);
+    //         alert(err.message || "An error occurred");
+    //     }
+    // }
+    //
+    // async function handleLogin(e: FormEvent) {
+    //     e.preventDefault();
+    //
+    //     try {
+    //         await account.createEmailPasswordSession(loginEmail, loginPassword);
+    //         window.location.href = "/dashboard";
+    //     } catch (err: any) {
+    //         console.error(err);
+    //         alert(err?.message || "Something went wrong");
+    //     }
+    // }
 
     return (
         <section style={styles.section}>

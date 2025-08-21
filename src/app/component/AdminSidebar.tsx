@@ -8,7 +8,7 @@ import {Menu, Typography, Button, Flex} from "antd";
 import {usePathname} from "next/navigation";
 import React, {useEffect, useMemo, useState} from "react";
 import {theme} from 'antd'
-import {logout} from "@/utils/appwrite";
+import {logoutAndRedirect} from "@/utils/appwrite";
 
 export default function AdminSidebar() {
     const pathname = usePathname();
@@ -67,13 +67,6 @@ export default function AdminSidebar() {
             path: '/help',
             icon: <Image src='/Messages-Bubble-Square-Question--Streamline-Ultimate.svg' alt='help' width={16}
                          height={16}/>,
-        },
-
-        {
-            key: '3',
-            label: <Link href='/'>Logout</Link>,
-            path: logout(),
-            icon: <UserDeleteOutlined/>,
         },
 
 
@@ -174,9 +167,13 @@ export default function AdminSidebar() {
                 selectedKeys={selectedKeysSettings}
                 style={{
                     backgroundColor: token.colorInfoBg,
-                    marginBottom: 24
+                    marginBottom: 0
                 }}
             />
+
+            <Button icon={<UserDeleteOutlined/>} type="text"
+                    onClick={logoutAndRedirect}
+                    style={{marginLeft: 12, marginTop: 0, fontSize: 14, fontWeight: 400}}>Log Out</Button>
 
         </Sider>
     );

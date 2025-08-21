@@ -1,11 +1,11 @@
-
 import React, {useRef, useEffect, useState} from "react";
 import mapboxgl from "mapbox-gl";
-import {Input, Button, Typography, Flex, Select, Image, List, Modal} from "antd";
+import {Input, Button, Typography, Flex, Select, Image, List, Modal, DatePicker} from "antd";
 import Icon, {SearchOutlined} from "@ant-design/icons";
 import {theme} from 'antd';
 import {Text} from "recharts";
 import type {GetProps} from 'antd';
+import dayjs from "dayjs";
 
 
 // mapboxgl.accessToken = process.env.mapboxAccessToken;
@@ -89,6 +89,9 @@ export default function Mapbox() {
 
     type CustomIconComponentProps = GetProps<typeof Icon>;
 
+    const dateFormat = 'YYYY-MM-DD';
+
+
     const SettingSvg = () => (
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M3 7H6" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
@@ -103,6 +106,18 @@ export default function Mapbox() {
                 stroke="white" stroke-width="1.5"/>
         </svg>
 
+    );
+
+    const SortSvg = () => (
+        <svg width="8" height="14" viewBox="0 0 8 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M4 0.5L7.4641 5H0.535898L4 0.5Z" fill="#2B3674"/>
+            <path d="M4 13.5L0.535898 9H7.4641L4 13.5Z" fill="#2B3674"/>
+        </svg>
+
+    );
+
+    const SortIcon = (props: Partial<CustomIconComponentProps>) => (
+        <Icon component={SortSvg} {...props} />
     );
 
 
@@ -235,7 +250,7 @@ export default function Mapbox() {
                     size="large"
                     defaultValue="For Sale"
                     suffixIcon={
-                        <Image src="/filter_up_down.svg" alt="filter" width={8} height={13}/>
+                        <SortIcon/>
                     }
                     onChange={handleChange}
                     options={[
@@ -314,6 +329,32 @@ export default function Mapbox() {
 
                     </Flex>
 
+                    <Flex justify='start'
+                          align="center"
+                          style={{padding: 16}}>
+                        <DatePicker
+                            defaultValue={dayjs('2019-09-03', dateFormat)}
+                            minDate={dayjs('2019-06-01', dateFormat)}
+                            maxDate={dayjs('2020-06-30', dateFormat)}
+                            style={{marginRight: 18}}
+                        />
+
+                        <DatePicker
+                            defaultValue={dayjs('2019-09-03', dateFormat)}
+                            minDate={dayjs('2019-06-01', dateFormat)}
+                            maxDate={dayjs('2020-06-30', dateFormat)}
+                        />
+
+                    </Flex>
+
+                    <Typography.Title
+                        style={{
+                            fontSize: token.fontSizeHeading4,
+                            fontWeight: 400,
+                        }}
+                    >
+                        Failed to create desire modal with AntD
+                    </Typography.Title>
 
                 </Modal>
 
@@ -339,7 +380,7 @@ export default function Mapbox() {
                     size="large"
                     defaultValue="Default Sort"
                     suffixIcon={
-                        <Image src="/filter_up_down.svg" alt="filter" width={8} height={13}/>
+                        <SortIcon/>
                     }
                     onChange={handleChange}
                     options={[

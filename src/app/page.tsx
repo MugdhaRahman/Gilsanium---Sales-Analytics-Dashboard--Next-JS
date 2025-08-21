@@ -1,9 +1,11 @@
-import HomePage from "@/app/layouts/HomePage";
+import SignUp from "@/app/layouts/SignUp";
+import SignIn from "@/app/layouts/SignIn";
+
 export default function Home() {
 
-  return (
-      <div >
-            <HomePage />
-      </div>
-  );
+    return (
+        <div>
+            <SignUp/>
+        </div>
+    );
 }

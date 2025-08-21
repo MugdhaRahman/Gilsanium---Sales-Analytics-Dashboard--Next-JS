@@ -58,7 +58,7 @@ export default function SignUp() {
         },
         section: {
             alignItems: "center",
-            backgroundColor: 'rgba(65,79,244,0.15)',
+            backgroundColor: 'rgba(43,54,116,0.15)',
             display: "flex",
             height: screens.sm ? "100vh" : "auto",
             padding: screens.md ? `${token.sizeXXL}px 0px` : "0px",

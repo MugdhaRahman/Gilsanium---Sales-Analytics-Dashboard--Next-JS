@@ -35,7 +35,7 @@ const EarningsCard = ({
             ) : (
                 <FallOutlined style={{color: token.colorError}}/>
             ),
-        [changeType]
+        [changeType, token.colorSuccessText, token.colorError] // ✅ include all dependencies
     );
 
     return (

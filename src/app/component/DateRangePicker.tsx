@@ -2,7 +2,7 @@
 import React, {useState} from 'react';
 import Image from 'next/image';
 import {DatePicker, Select, Space, TimePicker, Typography} from 'antd';
-import type {DatePickerProps, TimePickerProps} from 'antd';
+import type {DatePickerProps} from 'antd';
 
 export default function DateRangePicker() {
     type PickerType = 'time' | 'date' | 'week' | 'month' | 'quarter' | 'year';

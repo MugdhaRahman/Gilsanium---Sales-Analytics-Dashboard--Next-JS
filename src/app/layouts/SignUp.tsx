@@ -1,12 +1,10 @@
 "use client";
 
-import React, {CSSProperties, FormEvent, useState} from "react";
+import React, {CSSProperties} from "react";
 import {Button, Checkbox, Form, Grid, Input, message, theme, Typography} from "antd";
 import {GithubOutlined, LockOutlined, MailOutlined} from "@ant-design/icons";
 import Image from "next/image";
 import {loginWithGithub} from "@/utils/appwrite";
-import {account} from "@/utils/appwrite";
-import {ID} from "appwrite";
 
 
 const {useToken} = theme;

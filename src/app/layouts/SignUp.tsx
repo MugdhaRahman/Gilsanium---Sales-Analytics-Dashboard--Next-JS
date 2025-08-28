@@ -5,6 +5,7 @@ import {Button, Checkbox, Form, Grid, Input, message, theme, Typography} from "a
 import {GithubOutlined, LockOutlined, MailOutlined} from "@ant-design/icons";
 import Image from "next/image";
 import {loginWithGithub} from "@/utils/appwrite";
+import {viewDemo} from "@/utils/appwrite";
 
 
 const {useToken} = theme;
@@ -75,6 +76,14 @@ export default function SignUp() {
         } catch (err) {
             console.error(err);
             message.error("Failed to start GitHub login");
+        }
+    };
+
+    const onDemo = async () => {
+        try {
+            viewDemo()
+        } catch {
+            message.error("Failed to start Demo login");
         }
     };
 
@@ -160,6 +169,9 @@ export default function SignUp() {
                         <Button block onClick={onGithub} icon={<GithubOutlined/>}
                                 style={{background: token.colorFillSecondary, marginTop: 16}}>
                             Log in with github
+                        </Button>
+                        <Button block onClick={onDemo} type="primary" style={{marginTop: 16}}>
+                            Browse Demo
                         </Button>
                         <div style={styles.footer}>
                             <Text style={styles.text}>Do not have an account?</Text>{" "}

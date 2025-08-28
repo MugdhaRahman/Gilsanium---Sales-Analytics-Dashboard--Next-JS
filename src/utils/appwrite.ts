@@ -18,6 +18,10 @@ export function loginWithGithub() {
     );
 }
 
+export function viewDemo() {
+    window.open(`${window.location.origin}/overview`);
+}
+
 export async function logoutAndRedirect() {
     try {
         await account.deleteSession("current"); // end the session

@@ -79,11 +79,9 @@ export default function Overview() {
             </Flex>
         </Flex>
 
-        <Flex justify='space-evenly'
-              align='center'
-              style={{
-                  margin: '0 32px 24px 32px'
-              }}>
+        <Flex
+              className={"card-container"}
+        >
             <EarningCard icon={<Image
                 src="/Money-Bag-Dollar--Streamline-Ultimate.svg"
                 alt="Earnings Icon"

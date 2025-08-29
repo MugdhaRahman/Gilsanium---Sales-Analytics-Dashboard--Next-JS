@@ -251,10 +251,10 @@ export default function Mapbox() {
                 />
             </Flex>
 
-            <Flex justify="center" align="start" style={{ padding: 16 }}>
-                <div ref={mapContainerRef} style={{ width: '50%', height: '785px', borderRadius: '8px' }} />
+            <Flex justify="center" align="start" className={'mapbox-container'}>
+                <div ref={mapContainerRef} className={'map-container'} />
 
-                <div style={{ width: '50%', marginLeft: 16 }}>
+                <div className={'list-container'}>
                     <List
                         grid={{ gutter: 16, xs: 1, sm: 2, md: 2, lg: 2, xl: 2, xxl: 2 }}
                         dataSource={storeItems}

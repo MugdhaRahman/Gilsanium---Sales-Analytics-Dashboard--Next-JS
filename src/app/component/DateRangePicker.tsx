@@ -78,7 +78,7 @@ export default function DateRangePicker() {
                         style={{width:96}}
                     />
 
-                    <Typography.Title style={{alignItems: 'center', fontSize: 16, fontWeight: 400,marginTop:8}}>
+                    <Typography.Title style={{alignItems: 'center', fontSize: 16, fontWeight: 400,marginTop:8}} className={'datepicker-gutter--text'}>
                         To
                     </Typography.Title>
 

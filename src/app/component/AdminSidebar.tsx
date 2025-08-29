@@ -4,7 +4,15 @@ import React, { useEffect, useMemo, useState } from 'react';
 import Sider from 'antd/es/layout/Sider';
 import Image from 'next/image';
 import Link from 'next/link';
-import { SunOutlined, AppstoreOutlined, DatabaseOutlined, SettingOutlined, UserDeleteOutlined } from '@ant-design/icons';
+import {
+    SunOutlined,
+    AppstoreOutlined,
+    DatabaseOutlined,
+    SettingOutlined,
+    UserDeleteOutlined,
+    MenuFoldOutlined,
+    MenuUnfoldOutlined,
+} from '@ant-design/icons';
 import { Menu, Typography, Button, Flex, theme } from 'antd';
 import type { MenuProps } from 'antd';
 import { usePathname } from 'next/navigation';
@@ -13,7 +21,7 @@ import { logoutAndRedirect } from '@/utils/appwrite';
 type NavItem = {
     key: string;
     label: React.ReactNode;
-    path?: string;            // custom field (used only by us)
+    path?: string; // custom field (used only by us)
     icon?: React.ReactNode;
     children?: NavItem[];
 };
@@ -21,7 +29,13 @@ type NavItem = {
 // Helper result type for match finder
 type MatchResult = { selected?: string; open?: string };
 
-export default function AdminSidebar() {
+export default function AdminSidebar({
+                                         collapsed,
+                                         setCollapsed,
+                                     }: {
+    collapsed: boolean;
+    setCollapsed: (collapsed: boolean) => void;
+}) {
     const pathname = usePathname();
     const { token } = theme.useToken();
 
@@ -114,15 +128,35 @@ export default function AdminSidebar() {
 
     return (
         <Sider
-            width={260}
-            style={{ backgroundColor: token.colorInfoBg, position: 'sticky' }}
+            breakpoint="lg"
+            collapsedWidth="0"
             className="container-admin--sidebar"
+            collapsible
+            collapsed={collapsed}
+            onCollapse={(collapsed) => setCollapsed(collapsed)}
+            trigger={null}
         >
+            {/* Header Section */}
             <Flex justify="space-between" align="center" style={{ margin: '24px' }}>
+                {/* Logo */}
                 <Image src="/logo.svg" alt="logo" width={76} height={30} priority />
+
+                {/* SunOutlined Button */}
                 <Button shape="default" size="middle" icon={<SunOutlined />} className="btn-outline--small" />
+
+                {/* Collapse Button */}
+                <Button
+                    type="text"
+                    icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
+                    onClick={() => setCollapsed(!collapsed)}
+                    style={{
+                        fontSize: 20,
+                        color: token.colorTextBase,
+                    }}
+                />
             </Flex>
 
+            {/* General Menu */}
             <Typography.Title
                 style={{
                     fontSize: token.fontSizeHeading4,
@@ -137,7 +171,7 @@ export default function AdminSidebar() {
             </Typography.Title>
 
             <Menu
-                // AntD accepts extra props on items; our shape is compatible
+                theme="light"
                 items={items as MenuProps['items']}
                 mode="inline"
                 triggerSubMenuAction="click"
@@ -147,6 +181,7 @@ export default function AdminSidebar() {
                 style={{ backgroundColor: token.colorInfoBg, marginBottom: 24 }}
             />
 
+            {/* Account Menu */}
             <Typography.Title
                 style={{
                     fontSize: token.fontSizeHeading4,
@@ -170,6 +205,7 @@ export default function AdminSidebar() {
                 style={{ backgroundColor: token.colorInfoBg, marginBottom: 0 }}
             />
 
+            {/* Logout Button */}
             <Button
                 icon={<UserDeleteOutlined />}
                 type="text"

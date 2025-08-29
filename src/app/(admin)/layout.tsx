@@ -1,41 +1,38 @@
-// /app/(admin)/layout.tsx
 'use client';
 
-import 'mapbox-gl/dist/mapbox-gl.css';
-import "../globals.css";
-import React from 'react';
-import {Layout} from 'antd';
-import {Content} from "antd/es/layout/layout";
-import {AntdRegistry} from "@ant-design/nextjs-registry"
-import {ConfigProvider} from "antd"
-import theme from "@/config/theme"
-import {store} from "@/store";
-import {Provider} from "react-redux";
+import React, { useState } from 'react';
+import { Layout } from 'antd';
+import { ConfigProvider } from "antd";
+import theme from "@/config/theme";
+import { Provider } from "react-redux";
+import { store } from "@/store";
 import AdminSidebar from '@/app/component/AdminSidebar';
 import AdminHeader from '@/app/component/AdminHeader';
-
 
 export default function AdminLayout({
                                         children,
                                     }: Readonly<{
     children: React.ReactNode;
 }>) {
+    const [collapsed, setCollapsed] = useState(false);
+
     return (
         <ConfigProvider theme={theme}>
-            <AntdRegistry>
-                <Provider store={store}>
+            <Provider store={store}>
+                <Layout>
+                    {/* Sidebar */}
+                    <AdminSidebar collapsed={collapsed} setCollapsed={setCollapsed} />
+
+                    {/* Main Content */}
                     <Layout>
-                        <AdminSidebar/>
-                        <Layout>
-                            <AdminHeader/>
-                            <Content>
-                                {children}
-                            </Content>
-                        </Layout>
+                        {/* Header with Toggle Button */}
+                        <AdminHeader collapsed={collapsed} setCollapsed={setCollapsed} />
+                        <Layout.Content>
+                            {children}
+                        </Layout.Content>
                     </Layout>
-                </Provider>
-            </AntdRegistry>
+                </Layout>
+            </Provider>
         </ConfigProvider>
     );
-};
-
+}
